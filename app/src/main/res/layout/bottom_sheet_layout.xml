@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_Sheet_LinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#fff"
+        android:orientation="vertical"
+        android:weightSum="2">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:weightSum="4">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/busIcon"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_busicon" />
+
+                <TextView
+                    android:id="@+id/routeNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:maxLines="3"
+                    android:paddingLeft="3dp"
+                    android:text="101 A"
+                    android:textColor="#000000"
+                    android:textSize="12dp"></TextView>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/busTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="D152"
+                        android:textSize="14dp"
+                        android:visibility="gone"
+                        android:textStyle="bold"></TextView>
+
+                    <TextView
+                        android:id="@+id/busRouteTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tiruvotriyur to Poonamalle"
+                        android:textColor="#2D2D2D"
+                        android:textSize="16dp"></TextView>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <com.skyfishjy.library.RippleBackground xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/layout_round_background"
+                app:rb_color="#5d9c8d"
+                app:rb_duration="3000"
+                app:rb_radius="8dp"
+                app:rb_rippleAmount="5"
+                app:rb_scale="5">
+
+                <ImageView
+                    android:id="@+id/pickup_icon_selection"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/select_pickup_point_before" />
+            </com.skyfishjy.library.RippleBackground>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/timeLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Departure time"
+                        android:textColor="#ffffff"
+                        android:textSize="12dp"></TextView>
+
+                    <TextView
+                        android:id="@+id/startTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="09:30AM"
+                        android:textColor="#ffffff"
+                        android:textSize="13dp"></TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="2dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginEnd="50dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:layout_width="1dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="left"
+                        android:background="#ffffff"
+                        android:clickable="false"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Arrival time"
+                        android:textColor="#ffffff"
+                        android:textSize="12dp"></TextView>
+
+                    <TextView
+                        android:id="@+id/endTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="12.30 AM"
+                        android:textColor="#ffffff"
+                        android:textSize="13dp"></TextView>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="27dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_start_location" />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_toRightOf="@+id/linear_layout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/place_title"
+            android:text="Chennai"
+            android:textSize="13sp"
+            android:textColor="#000000"
+          />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/plan_time"
+            android:text="Departure Time"
+            android:layout_below="@+id/place_title"
+            android:textSize="10sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/firsttime"
+            android:text="11:00"
+            android:layout_below="@id/plan_time"
+            android:textColor="#000000"
+            android:textSize="10sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/starttime"
+            android:text="Arrival Time"
+            android:layout_below="@+id/place_title"
+            android:textSize="10sp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/secondtime"
+            android:text="1:00"
+            android:textColor="#000000"
+            android:layout_below="@id/plan_time"
+            android:textSize="10sp"
+            android:layout_alignLeft="@+id/starttime"/>
+    </RelativeLayout>
+</RelativeLayout>
