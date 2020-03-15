@@ -2,6 +2,8 @@ package com.bustrackingapp;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -38,6 +41,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.maps.DirectionsApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.android.PolyUtil;
@@ -48,6 +56,7 @@ import com.google.maps.model.TravelMode;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class MapsActivity extends Fragment implements OnMapReadyCallback,
@@ -92,6 +101,14 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback,
 
     private TextView endTimeText;
 
+    FirebaseDatabase database;
+
+    DatabaseReference myRef;
+
+    private boolean isBus=true;
+
+    String latitude,longitude;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -135,6 +152,25 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback,
         };
 
         addStopList();
+
+        database=FirebaseDatabase.getInstance();
+        myRef=database.getReference("buslatlng");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                latitude=map.get("latitude").toString();
+                longitude=map.get("longitude").toString();
+                Log.i("value","valuesss"+map);
+                Log.i("latiti","latitudeoe"+latitude);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.i("error","errrorrr");
+            }
+        });
     }
 
     @Nullable
@@ -176,6 +212,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback,
                 mMap.setMyLocationEnabled(true);
             }
         }
+
         // Add a marker in Sydney and move the camera
         /*LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
@@ -230,7 +267,6 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback,
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bus);
         markerOptionBus.icon(BitmapDescriptorFactory.fromBitmap(getResizedBitmap(bitmap, 160, 65)));
         busLocationMarker = mMap.addMarker(markerOptionBus);
-        busLocationMarker.setTitle(busStopingList.get(0).getStopingName());
 
         routeNumber.setText(busStopingList.get(0).getBusNo());
         busRouteTitle.setText(selectedBus);
@@ -265,6 +301,9 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback,
     public void onLocationChanged(Location location) {
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        if(isBus){
+            myRef.setValue(latLng);
+        }
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
 
@@ -276,9 +315,9 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback,
 
         handler.postDelayed(runnable, 10000);
         mPickupLocationMarkers = new ArrayList<>();
-        if (mMap != null) {
+       /* if (mMap != null) {
             mMap.clear();
-        }
+        }*/
 
         if ((mGoogleApiClient != null) && (mGoogleApiClient.isConnected())) {
             Log.v("locationapi bus", "started");
@@ -384,12 +423,17 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback,
     }
 
     private void busCurrentLocation() {
-        LatLng latLng = new LatLng(busStopingList.get(0).getLatitude(), busStopingList.get(0).getLongtitude());
+    //    value=value+1;
+        LatLng latLng = new LatLng(Double.valueOf(latitude), Double.valueOf(longitude));
 
         LatLng busLatLng = busLocationMarker.getPosition();
         if (busLocationMarker != null && ((latLng.latitude != busLatLng.latitude) ||
                 (latLng.longitude != busLatLng.longitude))) {
             MarkerAnimation.animateMarkerToGB(busLocationMarker, latLng, 3, new LatLngInterpolator.Spherical());
+        }
+
+        if((latLng.latitude==busLatLng.latitude) && (latLng.longitude==busLatLng.longitude)){
+          sendNotification();
         }
     }
 
@@ -450,4 +494,33 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback,
         super.onDestroy();
         handler.removeCallbacks(runnable);
     }
+
+    public void sendNotification() {
+
+        //Get an instance of NotificationManager//
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(getActivity())
+                        .setSmallIcon(R.drawable.ic_busicon)
+                        .setContentTitle("My notification")
+                        .setContentText("Hello World!");
+
+
+        // Gets an instance of the NotificationManager service//
+
+        NotificationManager mNotificationManager =
+
+                (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // When you issue multiple notifications about the same type of event,
+        // it’s best practice for your app to try to update an existing notification
+        // with this new information, rather than immediately creating a new notification.
+        // If you want to update this notification at a later date, you need to assign it an ID.
+        // You can then use this ID whenever you issue a subsequent notification.
+        // If the previous notification is still visible, the system will update this existing notification,
+        // rather than create a new one. In this example, the notification’s ID is 001//
+
+                mNotificationManager.notify(001, mBuilder.build());
+    }
+
 }
